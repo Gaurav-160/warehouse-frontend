@@ -1,0 +1,193 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  margin: 0 !important;
+}
+
+.sidebar {
+  min-width: 336px;
+  max-width: 25%;
+  margin-left: -3%;
+  /* height: 100vh; */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #f6f6f6;
+  padding: 20px;
+  padding-left: 30px;
+  border: solid rgb(122, 106, 133) 1px;
+  transition: width 0.3s;
+  
+  /* Set border radius only on the right corners */
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  
+  /* Remove border radius from left corners */
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+
+  @media (max-width: 768px) {
+    width: 100%; /* Take full width on smaller screens */
+  }
+}
+
+
+.sidebar.closed {
+  width: 64px; /* Adjust width when closed */
+}
+
+.head {
+  display: flex;
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgb(152, 200, 165);
+}
+
+.toggle-button {
+  display: none; /* Hidden by default */
+}
+
+@media (max-width: 768px) {
+  .toggle-button {
+    display: block; /* Show toggle button on smaller screens */
+    margin-bottom: 20px;
+  }
+
+  .sidebar {
+    width: 64px; /* Adjust width for mobile */
+  }
+
+  .sidebar.open {
+    width: 256px; /* Full width on open */
+  }
+
+  .sidebar.closed .sub-menu {
+    display: none; /* Hide sub-menu when closed */
+  }
+}
+
+.user-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.user-img .img-tag{
+    width: 100%;
+    object-fit: cover;
+}
+
+.user-details .title, .menu .title{
+    font-size: 10px;
+    font-weight: 500;
+    color: #757575;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.user-details .name{
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.menu{
+    /* border: solid red 3px; */
+    width: 100%;
+}
+
+.menu ul{
+    /* border: solid blue 2px; */
+    padding-left: 0;
+    width: 100%;
+}
+
+.menu ul li{
+    list-style: none;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.menu ul li button, .menu ul li .link{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #757575;
+    text-decoration: none;
+    padding: 12px 8px;
+    border: 8px;
+    transition: all 0.3s;
+    /* border: solid black 4px; */
+}
+
+.menu ul li .link:hover,.menu ul li.active .link, .menu ul li:hover button{
+    color: black;
+    background-color: #f6f6f6;
+}
+
+.menu ul li .icon{
+    font-size: 20px;
+}
+
+.menu ul li .text{
+    flex: 1;
+}
+
+.menu ul li .arrow{
+    font-size: 14px;
+}
+
+.menu .sub-menu{
+    /* margin-left: 20px; */
+    /* display: none; */
+    padding-left: 20px;
+    padding-top: 5px;
+    border-left: 1px solid #f6f6f6;
+}
+
+.menu .sub-menu li .link{
+
+}
+
+.menu .sub-menu {
+    transform: scaleY(0); /* Collapsed state */
+    transform-origin: top; /* Anchor the animation from the top */
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 0;
+    max-height: 0; /* Initially hidden */
+    overflow: hidden;
+}
+
+.sub-menu.open {
+    transform: scaleY(1); /* Expanded state */
+    opacity: 1;
+    max-height: 1000px; /* Ensure enough space for the submenu when open */
+}
+
+/* Add this for smooth closing transition */
+.sub-menu.closing {
+    transform: scaleY(0); /* Shrinking during closing */
+    opacity: 0;
+    max-height: 0;
+}
+
+.arrow {
+    transition: transform 0.3s ease;
+}
+
+.active .arrow {
+    transform: rotate(90deg);
+}
+
+
+.item-link {
+  color: #007bff; /* Example color for items */
+  padding-left: 20px; /* Indent items for distinction */
+}
+
+.item-link .text {
+  font-weight: normal; /* Adjust font weight for items */
+}

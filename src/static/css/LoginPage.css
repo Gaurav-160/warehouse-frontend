@@ -1,0 +1,8 @@
+.loginContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    border: solid black 4px;
+    min-height: 100vh;
+}
