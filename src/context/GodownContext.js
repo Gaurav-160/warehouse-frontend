@@ -14,9 +14,11 @@ export const GodownProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
+  const baseUrl = "https://warehouse24";
+
   const fetchGodowns = async () => {
     try {
-      const response = await fetch("http://localhost:8000/warehouse/godowns/"); // Adjust this URL as necessary
+      const response = await fetch(`${baseUrl}/warehouse/godowns/`); // Adjust this URL as necessary
       const data = await response.json();
       setGodowns(data); // Assuming the response is an array of godowns
       //   console.log("godowns data: ");
@@ -29,7 +31,7 @@ export const GodownProvider = ({ children }) => {
 
   const fetchItems = async () => {
     try {
-      const response = await fetch("http://localhost:8000/warehouse/items/"); // Adjust this URL as necessary
+      const response = await fetch(`${baseUrl}/warehouse/items/`); // Adjust this URL as necessary
       const data = await response.json();
       setItems(data); // Assuming the response is an array of items
       //   console.log("items data: ")
