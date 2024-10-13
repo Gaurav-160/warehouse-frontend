@@ -14,7 +14,7 @@ export const GodownProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-  const baseUrl = "https://warehouse24";
+  const baseUrl = "https://warehouse24.pythonanywhere.com";
 
   const fetchGodowns = async () => {
     try {
