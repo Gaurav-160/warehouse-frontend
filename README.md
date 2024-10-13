@@ -43,3 +43,17 @@ npm start
 ```
 
 This command will start the development server and open the application in your default web browser. The application is usually accessible at `http://localhost:3000`.
+
+## Configuring Base URL for Local Development
+
+In the `GodownContext.js` and `AuthContext.js` files, you will find a variable named `baseUrl`. Change this variable to point to your local Django server if you are running the application locally.
+
+```javascript
+const baseUrl = "https://warehouse24.pythonanywhere.com"; // Production URL
+// const baseUrl = "http://localhost:8000"; // Uncomment this line to use local Django server
+```
+
+Make sure to uncomment the local URL line when you are developing locally.
+
+## Backend Repository
+To run the backend for this application, you can find the Django server repository [here](https://github.com/Gaurav-160/warehouse-backend).
