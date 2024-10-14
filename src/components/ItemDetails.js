@@ -53,7 +53,7 @@ export default ItemDetail;
 
 // Styled Components
 const Container = styled.div`
-  background: #f9f9f9;
+  background: #7c818c;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -63,7 +63,7 @@ const Container = styled.div`
 `;
 
 const Title = styled.h2`
-  color: #333;
+  color: #fff;
   margin-bottom: 15px;
   text-align: center;
 `;

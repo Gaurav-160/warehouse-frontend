@@ -7,11 +7,21 @@ import { LiaWarehouseSolid } from "react-icons/lia";
 import { BiSitemap } from "react-icons/bi";
 import { useContext } from "react";
 import GodownContext from "../context/GodownContext";
+import AuthContext from "../context/AuthContext";
 
 const SideBar = ({ godowns, isOpen, onClose }) => {
   const [openSubMenus, setOpenSubMenus] = useState([]);
   const [closingSubMenus, setClosingSubMenus] = useState([]);
   const { selectItem } = useContext(GodownContext);
+  const { user, logoutUser } = useContext(AuthContext);
+
+  // State for search query
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Function to handle search input
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value.toLowerCase());
+  };
 
   const handleSubMenuToggle = (menuIndex) => {
     if (openSubMenus.includes(menuIndex)) {
@@ -64,7 +74,7 @@ const SideBar = ({ godowns, isOpen, onClose }) => {
                       }}
                     >
                       <BiSitemap className="icon" />
-                      <span className="text">{item.name} (Item)</span>
+                      <span className="text">{item.name}</span>
                     </div>
                   </li>
                 ))}
@@ -80,6 +90,11 @@ const SideBar = ({ godowns, isOpen, onClose }) => {
     );
   };
 
+  // Filter godowns based on search query
+  const filteredGodowns = godowns.filter((godown) =>
+    godown.name.toLowerCase().includes(searchQuery)
+  );
+
   useEffect(() => {
     console.log("godowns from sidebar: ");
     console.log(godowns);
@@ -94,64 +109,86 @@ const SideBar = ({ godowns, isOpen, onClose }) => {
           </div>
           <div className="user-details">
             <p className="title">Web Developer</p>
-            <p className="name">Gaurav Bhardwaj</p>
+            <p className="name">
+              {user?.name || user?.username || "Gaurav Bhardwaj"}
+            </p>
           </div>
           {/* Close Button in the top right corner */}
           {isOpen && <CloseButton onClick={onClose}>&times;</CloseButton>}
         </div>
 
+        {/* Search Bar for Godowns */}
+        <SearchBarWrapper>
+          <SearchInput
+            type="text"
+            placeholder="Search Warehouses..."
+            value={searchQuery}
+            onChange={handleSearch}
+          />
+        </SearchBarWrapper>
+
         <div className="nav">
           <div className="menu">
-            <p className="title">Main</p>
+            <p className="title">Warehouses</p>
             <ul>
-              {godowns.map((godown, index) => (
-                <li
-                  key={godown.id}
-                  className={openSubMenus.includes(index) ? "active" : ""}
-                >
-                  <div
-                    className="link"
-                    onClick={() => handleSubMenuToggle(index)}
+              {filteredGodowns.length > 0 ? (
+                filteredGodowns.map((godown, index) => (
+                  <li
+                    key={godown.id}
+                    className={openSubMenus.includes(index) ? "active" : ""}
                   >
-                    <FaWarehouse className="icon" />
-                    <span className="text">{godown.name}</span>
-                    {godown.sub_godowns?.length > 0 && (
-                      <IoIosArrowForward className="arrow" />
-                    )}
-                  </div>
-                  <ul
-                    className={`sub-menu ${
-                      openSubMenus.includes(index)
-                        ? "open"
-                        : closingSubMenus.includes(index)
-                        ? "closing"
-                        : ""
-                    }`}
-                  >
-                    {godown.items &&
-                      godown.items.map((item) => (
-                        <li key={item.item_id}>
-                          <div
-                            className="link"
-                            onClick={() => {
-                              selectItem(item);
-                              if (window.innerWidth <= 768) {
-                                onClose(); // Close the sidebar on small screens
-                              }
-                            }}
-                          >
-                            <BiSitemap className="icon" />
-                            <span className="text">{item.name}</span>
-                          </div>
-                        </li>
-                      ))}
-                    {godown.sub_godowns?.length > 0 &&
-                      renderSubLocations(godown.sub_godowns, index)}
-                  </ul>
-                </li>
-              ))}
+                    <div
+                      className="link"
+                      onClick={() => handleSubMenuToggle(index)}
+                    >
+                      <FaWarehouse className="icon" />
+                      <span className="text">{godown.name}</span>
+                      {godown.sub_godowns?.length > 0 && (
+                        <IoIosArrowForward className="arrow" />
+                      )}
+                    </div>
+                    <ul
+                      className={`sub-menu ${
+                        openSubMenus.includes(index)
+                          ? "open"
+                          : closingSubMenus.includes(index)
+                          ? "closing"
+                          : ""
+                      }`}
+                    >
+                      {godown.items &&
+                        godown.items.map((item) => (
+                          <li key={item.item_id}>
+                            <div
+                              className="link"
+                              onClick={() => {
+                                selectItem(item);
+                                if (window.innerWidth <= 768) {
+                                  onClose(); // Close the sidebar on small screens
+                                }
+                              }}
+                            >
+                              <BiSitemap className="icon" />
+                              <span className="text">{item.name}</span>
+                            </div>
+                          </li>
+                        ))}
+                      {godown.sub_godowns?.length > 0 &&
+                        renderSubLocations(godown.sub_godowns, index)}
+                    </ul>
+                  </li>
+                ))
+              ) : (
+                <li>No warehouses found</li>
+              )}
             </ul>
           </div>
+        </div>
+
+        <div className="footer">
+          {user ? (
+            <LogoutButton onClick={() => logoutUser("/")}>LogOut</LogoutButton>
+          ) : null}
         </div>
       </div>
     </SidebarWrapper>
@@ -166,7 +203,7 @@ const SidebarWrapper = styled.div`
   left: ${(props) => (props.isOpen ? "0" : "-350px")}; /* Slide in/out effect */
   width: 250px;
   height: 100%;
-  background-color: #f6f6f6;
+  background-color: #4b5162;
   transition: all 0.3s ease;
   z-index: 999; /* Below the button but above other content */
 
@@ -187,5 +224,48 @@ const CloseButton = styled.button`
   padding: 5px 10px;
   &:hover {
     color: red;
+  }
+`;
+
+// Search Bar styles
+const SearchBarWrapper = styled.div`
+  padding: 10px;
+`;
+
+const SearchInput = styled.input`
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  font-size: 16px;
+`;
+
+
+export const LogoutButton = styled.button`
+  padding: 10px;
+  min-width: 100%;
+  color: #f6f6f6; /* White text */
+  border: solid #007bff 1px;
+  border-radius: 30px; /* Rounded corners */
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: border 0.3s ease, transform 0.2s ease;
+  margin-top: 20px; /* Add margin to separate from the content */
+
+  &:hover {
+    border: solid #a93226 1px; /* Darker red on hover */
+    color: #fff;
+    transform: scale(1.01); /* Slight grow effect on hover */
+  }
+
+  &:active {
+    background-color: #a93226; /* Even darker red when active */
+    transform: scale(1); /* Reset scale when button is pressed */
+  }
+
+  &:focus {
+    outline: none; /* Remove default focus outline */
   }
 `;

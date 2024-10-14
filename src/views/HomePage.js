@@ -7,19 +7,28 @@ import styled from "styled-components";
 import MainContent from "../components/MainContent";
 import ItemDetail from "../components/ItemDetails";
 import FloatingToggleButton from "../components/FloatingBtn";
+import { useGoogleLogin } from "@react-oauth/google";
+import GoogleButton from "react-google-button";
 import { Link } from "react-router-dom";
 
 function Homepage() {
   const { fetchGodowns, godowns, loading, error, selectedItem } =
     useContext(GodownContext); // Access context
 
-  const { user, login, logout, googleLogin } = useContext(AuthContext); // Access authentication context
+  const { user, loginUser, logoutUser, loginUserWithGoogle } =
+    useContext(AuthContext); // Access authentication context
+
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      loginUserWithGoogle(codeResponse);
+    },
+    flow: "implicit",
+  });
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
-    console.log("sb: ", sidebarOpen);
   };
 
   useEffect(() => {
@@ -44,24 +53,33 @@ function Homepage() {
           <ItemDetail item={selectedItem} />
         ) : (
           <EmptyState>
-            <Message>Select an item from the sidebar to see details.</Message>
             {!user ? (
-              <AuthOptions>
-                <AuthButton>
-                  <Link to={"/login"}>Login</Link>
-                </AuthButton>
-                <AuthButton onClick={googleLogin}>
-                  Sign in with Google
-                </AuthButton>
-                <AuthButton>
-                  <Link to={"/register"}>Sign Up</Link>
-                </AuthButton>
-              </AuthOptions>
+              <EmptyState>
+                <Message>
+                  Welcome! To manage your own warehouse, please log in or create
+                  an account.
+                </Message>
+                <AuthOptions>
+                  <AuthButton>
+                    <Link to={"/login"}>Login</Link>
+                  </AuthButton>
+                  <GoogleButton
+                    className="googleSignInBtn"
+                    onClick={() => login()}
+                  />
+                  <AuthButton>
+                    <Link to={"/register"}>Register</Link>
+                  </AuthButton>
+                </AuthOptions>
+                <hr />
+                <Message>
+                  Select an item from the sidebar to see details.
+                </Message>
+              </EmptyState>
             ) : (
               <WelcomeMessage>
                 Welcome, {user.username || "User"}! Select an item to view
                 details.
-                {/* <button onClick={() => logout()}>LogOut</button> */}
               </WelcomeMessage>
             )}
           </EmptyState>
@@ -73,12 +91,13 @@ function Homepage() {
 
 export default Homepage;
 
-const Container = styled.div`
+// Styled components
+export const Container = styled.div`
   display: flex;
   width: 100vw;
   min-height: 100vh;
   padding: 0;
-  background-color: #f5f7fa;
+  background-color: #383c4a;
   color: #2c3e50;
 
   @media (max-width: 768px) {
@@ -86,13 +105,13 @@ const Container = styled.div`
   }
 `;
 
-const SideBarWrapper = styled.div`
+export const SideBarWrapper = styled.div`
   flex: 0 0 24%;
   max-width: 24%;
   min-width: 336px;
   height: 100vh; /* Make sure it takes the full height */
   overflow-y: auto; /* Enable scrolling within the sidebar */
-  background-color: #f6f6f6;
+  background-color: #383c4a;
 
   @media (max-width: 768px) {
     flex: 0 0 100%; /* Sidebar takes full width */
@@ -116,18 +135,14 @@ const SideBarWrapper = styled.div`
   }
 `;
 
-
 const MainContentWrapper = styled.div`
   flex: 1;
   padding: 20px;
   margin: 20px;
   margin-left: 0px;
-  background-color: #ffffff;
+  background-color: #bbbbbb;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  height: 100vh;
-  // position: sticky;
-  // top: 0;
   justify-content: center;
   align-items: center;
 
@@ -138,7 +153,6 @@ const MainContentWrapper = styled.div`
   }
 `;
 
-// Empty state when no item is selected
 const EmptyState = styled.div`
   display: flex;
   flex-direction: column;
@@ -146,25 +160,36 @@ const EmptyState = styled.div`
   align-items: center;
   height: 100%;
   text-align: center;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
 const Message = styled.h2`
   color: #2c3e50;
   font-size: 1.5rem;
   margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+  }
 `;
 
-// Auth Options for Sign Up, Login, and Google Login
 const AuthOptions = styled.div`
   display: flex;
-  flex-direction: column;
   gap: 15px;
+  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+
+  @media (max-width: 768px) {
+    gap: 10px;
+    justify-content: center; /* Center buttons on smaller screens */
+  }
 `;
 
 const AuthButton = styled.button`
-  padding: 10px 20px;
-  background-color: #3498db;
-  color: #fff;
+  padding: 8px 25px;
+  color: #fff !important;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -172,7 +197,12 @@ const AuthButton = styled.button`
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #2980b9;
+    background-color: #ccd5e9;
+  }
+
+  @media (max-width: 768px) {
+    padding: 10px 20px;
+    font-size: 0.875rem; /* Slightly smaller font on smaller screens */
   }
 `;
 
@@ -180,4 +210,8 @@ const WelcomeMessage = styled.h3`
   color: #2c3e50;
   font-size: 1.25rem;
   margin-top: 20px;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;

@@ -26,6 +26,9 @@ export const AuthProvider = ({ children }) => {
 
     const navigate = useNavigate();
 
+    // const baseUrl = "https://warehouse24.pythonanywhere.com";
+    const baseUrl = "http://127.0.0.1:8000";
+
     const fetchUserDataFromGoogle = async (token) => {
       try {
         const userData = await fetch(
@@ -57,7 +60,7 @@ export const AuthProvider = ({ children }) => {
         //   body: JSON.stringify({ email, password }),
         // });
 
-        const response = await fetch("http://localhost:8000/api/token/", {
+        const response = await fetch(`${baseUrl}/api/token/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -92,7 +95,7 @@ export const AuthProvider = ({ children }) => {
         //     })
         // });
 
-        const response = await fetch("http://localhost:8000/api/register/", {
+        const response = await fetch(`${baseUrl}/api/register/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -114,11 +117,12 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const logoutUser = () => {
+    const logoutUser = (redirect_endpoint) => {
         setAuthToken(null)
         setUser(null)
         localStorage.clear()
         navigate("/login")
+        navigate(redirect_endpoint);
     }
 
     const loginUserWithGoogle = async (codeResponse) => {
@@ -136,7 +140,7 @@ export const AuthProvider = ({ children }) => {
 
       try {
         const response = await fetch(
-          "https://gaurav507.pythonanywhere.com/api-auth/convert-token",
+          `${baseUrl}/api-auth/convert-token`,
           {
             method: "POST",
             headers: {
@@ -182,7 +186,7 @@ export const AuthProvider = ({ children }) => {
 
     const resetPassword = async (email) => {
         var response = await fetch(
-          "https://gaurav507.pythonanywhere.com/api/password_reset/", 
+          `${baseUrl}/api/password_reset/`, 
           {
             method: "POST",
             headers:{
