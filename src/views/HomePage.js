@@ -6,18 +6,21 @@ import SideBar from "../components/Sidebar";
 import styled from "styled-components";
 import MainContent from "../components/MainContent";
 import ItemDetail from "../components/ItemDetails";
-import FloatingToggleButton from "../components/FloatingBtn"
+import FloatingToggleButton from "../components/FloatingBtn";
+import { Link } from "react-router-dom";
 
 function Homepage() {
   const { fetchGodowns, godowns, loading, error, selectedItem } =
     useContext(GodownContext); // Access context
 
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user, login, logout, googleLogin } = useContext(AuthContext); // Access authentication context
 
-    const toggleSidebar = () => {
-      setSidebarOpen(!sidebarOpen);
-      console.log("sb: ", sidebarOpen);
-    };
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+    console.log("sb: ", sidebarOpen);
+  };
 
   useEffect(() => {
     fetchGodowns(); // Fetch godowns from context
@@ -40,7 +43,28 @@ function Homepage() {
         {selectedItem ? (
           <ItemDetail item={selectedItem} />
         ) : (
-          <div style={{margin:"auto"}}>Select an item to see the details.</div>
+          <EmptyState>
+            <Message>Select an item from the sidebar to see details.</Message>
+            {!user ? (
+              <AuthOptions>
+                <AuthButton>
+                  <Link to={"/login"}>Login</Link>
+                </AuthButton>
+                <AuthButton onClick={googleLogin}>
+                  Sign in with Google
+                </AuthButton>
+                <AuthButton>
+                  <Link to={"/register"}>Sign Up</Link>
+                </AuthButton>
+              </AuthOptions>
+            ) : (
+              <WelcomeMessage>
+                Welcome, {user.username || "User"}! Select an item to view
+                details.
+                {/* <button onClick={() => logout()}>LogOut</button> */}
+              </WelcomeMessage>
+            )}
+          </EmptyState>
         )}
       </MainContentWrapper>
     </Container>
@@ -66,13 +90,32 @@ const SideBarWrapper = styled.div`
   flex: 0 0 24%;
   max-width: 24%;
   min-width: 336px;
+  height: 100vh; /* Make sure it takes the full height */
+  overflow-y: auto; /* Enable scrolling within the sidebar */
+  background-color: #f6f6f6;
 
   @media (max-width: 768px) {
     flex: 0 0 100%; /* Sidebar takes full width */
     max-width: 100%;
     min-width: 100%;
+    height: auto; /* On smaller screens, auto height */
+  }
+
+  /* Optional: Style the scrollbar (for modern browsers) */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); /* Scrollbar thumb color */
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #f0f0f0; /* Scrollbar track color */
   }
 `;
+
 
 const MainContentWrapper = styled.div`
   flex: 1;
@@ -83,8 +126,8 @@ const MainContentWrapper = styled.div`
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   height: 100vh;
-  position: sticky;
-  top: 0;
+  // position: sticky;
+  // top: 0;
   justify-content: center;
   align-items: center;
 
@@ -95,3 +138,46 @@ const MainContentWrapper = styled.div`
   }
 `;
 
+// Empty state when no item is selected
+const EmptyState = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+`;
+
+const Message = styled.h2`
+  color: #2c3e50;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+`;
+
+// Auth Options for Sign Up, Login, and Google Login
+const AuthOptions = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+`;
+
+const AuthButton = styled.button`
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #2980b9;
+  }
+`;
+
+const WelcomeMessage = styled.h3`
+  color: #2c3e50;
+  font-size: 1.25rem;
+  margin-top: 20px;
+`;

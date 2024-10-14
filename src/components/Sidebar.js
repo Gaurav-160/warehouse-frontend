@@ -94,7 +94,7 @@ const SideBar = ({ godowns, isOpen, onClose }) => {
           </div>
           <div className="user-details">
             <p className="title">Web Developer</p>
-            <p className="name">John Doe</p>
+            <p className="name">Gaurav Bhardwaj</p>
           </div>
           {/* Close Button in the top right corner */}
           {isOpen && <CloseButton onClick={onClose}>&times;</CloseButton>}
