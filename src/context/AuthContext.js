@@ -26,8 +26,8 @@ export const AuthProvider = ({ children }) => {
 
     const navigate = useNavigate();
 
-    // const baseUrl = "https://warehouse24.pythonanywhere.com";
-    const baseUrl = "http://127.0.0.1:8000";
+    const baseUrl = "https://warehouse24.pythonanywhere.com";
+    // const baseUrl = "http://127.0.0.1:8000";
 
     const fetchUserDataFromGoogle = async (token) => {
       try {
