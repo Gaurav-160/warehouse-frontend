@@ -48,6 +48,8 @@ This command will start the development server and open the application in your 
 
 In the `GodownContext.js` and `AuthContext.js` files, you will find a variable named `baseUrl`. Change this variable to point to your local Django server if you are running the application locally.
 
+Demo Video link: https://drive.google.com/file/d/1G6Yzx6BPgPfa-WVae8gDvqrdfIeAuL9t/view?usp=sharing
+
 ```javascript
 const baseUrl = "https://warehouse24.pythonanywhere.com"; // Production URL
 // const baseUrl = "http://localhost:8000"; // Uncomment this line to use local Django server
