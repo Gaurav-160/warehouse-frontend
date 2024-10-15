@@ -7,6 +7,10 @@ const ItemDetail = ({ item }) => {
   return (
     <Container>
       <Title>{item.name}</Title>
+
+      {/* Item Image */}
+      {/* {item.image_url && <ItemImage src={item.image_url} alt={item.name} />} */}
+
       <InfoGrid>
         <InfoItem>
           <Label>Quantity:</Label>
@@ -25,24 +29,20 @@ const ItemDetail = ({ item }) => {
           <Value>{item.status}</Value>
         </InfoItem>
         <InfoItem>
-          <Label>Godown:</Label>
-          <Value>{item.godown}</Value>
-        </InfoItem>
-        <InfoItem>
           <Label>Brand:</Label>
           <Value>{item.brand}</Value>
         </InfoItem>
         <InfoItem>
           <Label>Color:</Label>
-          <Value>{item.color}</Value>
+          <Value>{item.attributes.color}</Value>
         </InfoItem>
         <InfoItem>
           <Label>Material:</Label>
-          <Value>{item.metal}</Value>
+          <Value>{item.attributes.material}</Value>
         </InfoItem>
         <InfoItem>
           <Label>Warranty:</Label>
-          <Value>{item.warranty} years</Value>
+          <Value>{item.attributes.warranty_years} years</Value>
         </InfoItem>
       </InfoGrid>
     </Container>
@@ -66,6 +66,16 @@ const Title = styled.h2`
   color: #fff;
   margin-bottom: 15px;
   text-align: center;
+`;
+
+// New Item Image Styling
+const ItemImage = styled.img`
+  display: block;
+  margin: 0 auto 20px auto;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const InfoGrid = styled.div`

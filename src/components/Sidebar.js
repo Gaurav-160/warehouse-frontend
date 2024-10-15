@@ -108,10 +108,8 @@ const SideBar = ({ godowns, isOpen, onClose }) => {
             <img src="./images/user.jpg" alt="user" />
           </div>
           <div className="user-details">
-            <p className="title">Web Developer</p>
-            <p className="name">
-              {user?.name || user?.username || "Gaurav Bhardwaj"}
-            </p>
+            <p className="title">Welcome</p>
+            <p className="name">{user?.name || user?.username || "User"}</p>
           </div>
           {/* Close Button in the top right corner */}
           {isOpen && <CloseButton onClick={onClose}>&times;</CloseButton>}
@@ -181,6 +179,16 @@ const SideBar = ({ godowns, isOpen, onClose }) => {
               ) : (
                 <li>No warehouses found</li>
               )}
+
+              {user && <li>
+                <div
+                  className="link"
+                >
+                  <FaWarehouse className="icon" />
+                  <span className="text">Manage Warehouses</span>
+                    <IoIosArrowForward className="arrow" />
+                </div>
+              </li>}
             </ul>
           </div>
         </div>

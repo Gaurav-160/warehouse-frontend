@@ -10,6 +10,7 @@ import FloatingToggleButton from "../components/FloatingBtn";
 import { useGoogleLogin } from "@react-oauth/google";
 import GoogleButton from "react-google-button";
 import { Link } from "react-router-dom";
+import ItemCard from "../components/Items";
 
 function Homepage() {
   const { fetchGodowns, godowns, loading, error, selectedItem } =
@@ -51,6 +52,7 @@ function Homepage() {
       <MainContentWrapper>
         {selectedItem ? (
           <ItemDetail item={selectedItem} />
+          // <ItemCard item={selectedItem} />
         ) : (
           <EmptyState>
             {!user ? (
@@ -135,7 +137,7 @@ export const SideBarWrapper = styled.div`
   }
 `;
 
-const MainContentWrapper = styled.div`
+export const MainContentWrapper = styled.div`
   flex: 1;
   padding: 20px;
   margin: 20px;

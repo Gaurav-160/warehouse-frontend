@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useContext } from "react";
 import {
   MDBBtn,
@@ -9,55 +8,56 @@ import {
 } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import "../static/css/LoginPage.css"
+import "../static/css/LoginPage.css";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
-import GoogleButton from "react-google-button";
-
 
 function LoginPage() {
-
   const { loginUser, loginUserWithGoogle } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  if(localStorage.getItem("authTokens") || localStorage.getItem("googleAccessToken")){
-    alert("Already logged in")
-    navigate("/dashboard")
+  if (
+    localStorage.getItem("authTokens") ||
+    localStorage.getItem("googleAccessToken")
+  ) {
+    alert("Already logged in");
+    navigate("/dashboard");
   }
-  
+
   const handleLogin = (e) => {
-    e.preventDefault()
-    const email = e.target.email.value
-    const password = e.target.password.value
-
-    email.length > 0 && loginUser(email, password)
-
-    // console.log(email)
-    // console.log(password)
-
-  }
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    email.length > 0 && loginUser(email, password);
+  };
 
   const login = useGoogleLogin({
-    onSuccess: (codeResponse) => {loginUserWithGoogle(codeResponse)},
-    flow: "implicit"
+    onSuccess: (codeResponse) => {
+      loginUserWithGoogle(codeResponse);
+    },
+    flow: "implicit",
   });
-
 
   return (
     <div className="loginContainer">
       <MDBRow>
-        <MDBCol col="6" md="6">
+        {/* Image Section */}
+        <MDBCol col="12" md="6" className="mb-4">
           <img
             src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
             className="img-fluid"
-            alt="Sample image"
+            alt="Login image"
           />
         </MDBCol>
 
-        <MDBCol col="6" md="6">
-          <div className="d-flex flex-row align-items-center justify-content-center">
-            {/* <GoogleButton onClick={() => login()} /> */}
-            <button onClick={() => login()}>
+        {/* Form Section */}
+        <MDBCol
+          col="12"
+          md="6"
+          className="d-flex flex-column align-items-center justify-content-center"
+        >
+          <div className="d-flex flex-row align-items-center justify-content-center mb-4">
+            <button className="google-login-btn" onClick={() => login()}>
               Sign in with Google
             </button>
           </div>
@@ -66,6 +66,7 @@ function LoginPage() {
             <p className="text-center fw-bold mx-3 mb-0">Or</p>
           </div>
 
+          {/* Login Form */}
           <form onSubmit={handleLogin}>
             <MDBInput
               wrapperClass="mb-4"
@@ -74,6 +75,7 @@ function LoginPage() {
               type="email"
               size="lg"
               name="email"
+              required
             />
             <MDBInput
               wrapperClass="mb-4"
@@ -82,6 +84,7 @@ function LoginPage() {
               type="password"
               size="lg"
               name="password"
+              required
             />
 
             <div className="d-flex justify-content-between mb-4">
@@ -99,7 +102,10 @@ function LoginPage() {
                 Login
               </MDBBtn>
               <p className="small fw-bold mt-2 pt-1 mb-2">
-                Don't have an account? <Link to="/register"> Register </Link>
+                Don't have an account?{" "}
+                <Link to="/register" className="link-danger">
+                  Register
+                </Link>
               </p>
             </div>
           </form>

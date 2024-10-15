@@ -1,8 +1,67 @@
-.loginContainer{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    border: solid black 4px;
-    min-height: 100vh;
+/* LoginPage.css */
+
+.loginContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f0f2f5;
+}
+
+.loginContainer .form-control-lg {
+  border-radius: 10px;
+}
+
+.loginContainer .img-fluid {
+  border-radius: 10px;
+  max-height: 400px;
+  object-fit: cover;
+}
+
+.divider {
+  margin: 2rem 0;
+}
+
+.loginContainer .text-center {
+  text-align: center;
+}
+
+.loginContainer .google-login-btn {
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.loginContainer .google-login-btn:hover {
+  background-color: #357ae8;
+}
+
+.loginContainer .divider p {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .loginContainer {
+    flex-direction: column;
+  }
+  
+  .loginContainer .img-fluid {
+    margin-bottom: 20px;
+    max-height: 300px;
+  }
+
+  .loginContainer .google-login-btn {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .loginContainer form {
+    width: 100%;
+  }
 }

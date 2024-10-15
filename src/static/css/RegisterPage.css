@@ -1,0 +1,48 @@
+/* RegisterPage.css */
+
+@media (max-width: 768px) {
+  .register-container {
+    padding: 10px;
+  }
+  .register-form {
+    padding: 20px;
+  }
+  .register-card {
+    margin: 20px;
+  }
+  .register-image {
+    display: none; /* Hide image on small screens */
+  }
+}
+
+@media (min-width: 769px) {
+  .register-image {
+    display: block; /* Show image on larger screens */
+  }
+}
+
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.register-card {
+  border-radius: 25px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-form {
+  padding: 40px;
+}
+
+.register-btn {
+  background-color: #3c647d;
+  color: white;
+}
+
+.register-btn:hover {
+  background-color: #3c647d;
+}
