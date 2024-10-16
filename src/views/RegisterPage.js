@@ -24,6 +24,10 @@ function RegisterPage() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    console.log(email)
+    console.log(username)
+    console.log(password)
+    console.log(password2)
     registerUser(email, username, password, password2);
   };
 

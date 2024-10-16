@@ -2,6 +2,8 @@
 
 ## Description
 This repository contains the frontend of the Warehouse application, built using React. This application allows users to [briefly describe what your application does, e.g., manage inventory, track shipments, etc.].
+The goal was to implement a modular design, making the frontend highly dynamic with a React-based UI, and the backend scalable and secure using Django REST framework with JWT authentication and social login integration.
+The sidebar navigation was implemented to be responsive and dynamic. Godowns and items are fetched from the backend API, and the data is rendered in a hierarchical structure in the sidebar.
 
 ## Prerequisites
 Before you begin, ensure you have met the following requirements:
@@ -48,7 +50,7 @@ This command will start the development server and open the application in your 
 
 In the `GodownContext.js` and `AuthContext.js` files, you will find a variable named `baseUrl`. Change this variable to point to your local Django server if you are running the application locally.
 
-Demo Video link: https://drive.google.com/file/d/1G6Yzx6BPgPfa-WVae8gDvqrdfIeAuL9t/view?usp=sharing
+Demo Video link: https://drive.google.com/file/d/1lIbO8ZC6jz_1dkBPKs-B6816t1D-0cpN/view?usp=sharing
 
 ```javascript
 const baseUrl = "https://warehouse24.pythonanywhere.com"; // Production URL

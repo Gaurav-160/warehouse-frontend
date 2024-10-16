@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
         } else {
             console.log(response.status);
             console.log("there was a server issue");
-            alert("something went wrong " + response.status);
+            // alert("something went wrong " + response.status);
         }
     }
 
@@ -113,7 +113,7 @@ export const AuthProvider = ({ children }) => {
         } else {
             console.log(response.status);
             console.log("there was a server issue");
-            alert("something went wrong " + response.status);
+            // alert("something went wrong " + response.status);
         }
     }
 
@@ -159,7 +159,7 @@ export const AuthProvider = ({ children }) => {
         } else {
           console.log(response.status);
           console.log("there was a server issue");
-          alert("something went wrong " + response.status);
+          // alert("something went wrong " + response.status);
         }
       } catch (error) {
         console.log(error);
